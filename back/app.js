@@ -37,24 +37,48 @@ app.use(cors())
 
 // Take a post request from endpoint and creates a post on DB
 app.post('/api/songs', async (req, res) => {
-	// data on post body
-	let allData = req.body
-	// traffic var
-	let dataForMongo = []
-	allData.forEach(song => {
-		dataForMongo.push({
-			title: song.title,
-			disc: song.disc,
-			year: song.year,
-			lyrics: song.lyrics,
-			tags: song.tags
+	try {
+		// traffic var
+		let dataForMongo = []
+		req.body.forEach(song => {
+			dataForMongo.push({
+				title: song.title,
+				disc: song.disc,
+				year: song.year,
+				lyrics: song.lyrics,
+				tags: song.tags
+			})
 		})
+
+		// creates records on DB using base model with mongoose method CREATE
+		await songs.create(dataForMongo)
+
+	} catch (err) {
+		console.error('Error posting  data to DB:', err);
+		res.status(500).json({ err: 'Internal Server Error' });
+
+	}
+
+
+})
+
+app.put('api/songs/:id', async (req, res) => {
+	const { tags } = req.body
+	await songs.finOneAndUpdate({ _id: id }, {
+		tags
 	})
+	res.json({ message: "Tags Updated" })
+})
 
-	// creates records on DB using base model with mongoose method CREATE
-	await songs.create(dataForMongo)
-
-
+app.get('api/songs/:id', async (req, res) => {
+	try {
+		const specificSong = await songs.findById(id)
+		consol.log(specificSong)
+		res.json(specificSong)
+	} catch (err) {
+		console.error('Error retriving specific song  data:', err);
+		res.status(500).json({ err: 'Internal Server Error' });
+	}
 })
 
 // Delete request, delete all data from DB
@@ -63,8 +87,8 @@ app.delete('/api/songs', async (req, res) => {
 	try {
 		await songs.deleteMany()
 	} catch (err) {
-		console.error('Error deleting  data:', error);
-		res.status(500).json({ error: 'Internal Server Error' });
+		console.error('Error deleting  data:', err);
+		res.status(500).json({ err: 'Internal Server Error' });
 	}
 
 })
@@ -77,10 +101,11 @@ app.get("/api/songs", async (req, res) => {
 		const data = await songs.find();
 
 		// Send the data as a response
-		res.json(data);
-	} catch (error) {
-		console.error('Error retrieving data:', error);
-		res.status(500).json({ error: 'Internal Server Error' });
+		res.send(data)
+
+	} catch (err) {
+		console.error('Error retrieving data:', err);
+		res.status(500).json({ err: 'Internal Server Error' });
 	}
 
 })
