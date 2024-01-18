@@ -2,7 +2,7 @@
 
 Soon i will explain the idea of the site.
 By now, its a place where you goonna find all Cuarteto de Nos songs.
-I gat a Data Base on MongoDB where i will store lyrics of this songs so its will aloud to make some interesting querys about.
+There's a database on MongoDB where I will store the lyrics of these songs, allowing for some interesting queries.
 
 
 ### execute command to run backend server
