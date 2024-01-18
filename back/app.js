@@ -5,6 +5,8 @@ import 'dotenv/config'
 import cors from "cors";
 
 
+
+
 // backend port
 const port = 5500
 
@@ -62,24 +64,54 @@ app.post('/api/songs', async (req, res) => {
 
 })
 
-app.put('api/songs/:id', async (req, res) => {
-	const { tags } = req.body
-	await songs.finOneAndUpdate({ _id: id }, {
-		tags
-	})
-	res.json({ message: "Tags Updated" })
-})
+// edit tags of a song with a specific id
 
-app.get('api/songs/:id', async (req, res) => {
+app.patch('/api/songs/:id', async (req, res) => {
 	try {
-		const specificSong = await songs.findById(id)
-		consol.log(specificSong)
+		const _id = req.params.id;
+		const { tags } = req.body;
+		await songs.findOneAndUpdate({ _id: _id }, {
+			"tags": tags
+		});
+		res.json({ message: "Tags Updated" });
+	} catch (err) {
+		console.log(err)
+	}
+
+});
+
+
+// get a song by id
+
+app.get('/api/songs/:id', async (req, res) => {
+	try {
+		const _id = req.params.id;
+		const specificSong = await songs.findById(_id)
+		console.log(specificSong)
 		res.json(specificSong)
 	} catch (err) {
 		console.error('Error retriving specific song  data:', err);
 		res.status(500).json({ err: 'Internal Server Error' });
 	}
 })
+
+
+
+
+// get a song by title
+app.get('/api/songsByTitle/:title', async (req, res) => {
+	try {
+		const decodedTitle = decodeURIComponent(req.params.title);
+		console.log("Asked title", decodedTitle)
+		const song = await songs.findOne({ title: decodedTitle }).exec();
+		console.log("Song data", song)
+		res.status(200).json(song);
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ error: 'Error al obtener la canción' });
+	}
+});
+
 
 // Delete request, delete all data from DB
 

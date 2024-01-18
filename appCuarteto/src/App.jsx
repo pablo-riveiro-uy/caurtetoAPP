@@ -1,7 +1,7 @@
 import './App.css'
-import { ReactDOM } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ListAllLyrics from './Components/ListAllLyrics'
+import AddTags_Page from './Pages/AddTags_Page'
 function App() {
 
 
@@ -17,6 +17,7 @@ function App() {
 
 
 				<Route path="/" element={<ListAllLyrics />} />
+				<Route path="/addTags" element={<AddTags_Page />} />
 			</Routes>
 		</BrowserRouter>
 
