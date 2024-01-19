@@ -5,7 +5,10 @@ export default function AddTags_Page() {
 
 	const urlBase = "http://localhost:5500"
 	const [dataSong, setDataSong] = useState([]);
+	const [finalTagList, setFinalTagList] = useState([]);
 	const [tittleToSearch, setTitleToSearch] = useState('')
+	const [tagList, setTagList] = useState([])
+	const [tag, setTag] = useState([])
 
 
 
@@ -14,22 +17,40 @@ export default function AddTags_Page() {
 		axios.get(`${urlBase}/api/songsByTitle/${title}`)
 			.then((res) => {
 				if (res) {
-
 					console.log("asked song from DB", res.data)
 					setDataSong(res.data)
+					let tags = res.data.tags
+					setTagList(tags)
+					console.log("taglist actualizada ", tagList)
 				}
 			})
 
 	}
 
 
-
+	function handleChangeAddTag(e) {
+		e.preventDefault()
+		const value = e.target.value;
+		setTag(value)
+	}
 
 	function handleChange(e) {
 		e.preventDefault()
 		const value = e.target.value;
 		setTitleToSearch(value);
 	}
+
+	function handleAdd(e) {
+		e.preventDefault()
+		let newList = []
+		newList = tagList
+		newList.push(tag)
+		setFinalTagList(newList)
+		console.log("nueva lista ", finalTagList)
+
+	}
+
+
 
 
 	return (
@@ -65,16 +86,17 @@ export default function AddTags_Page() {
 			</div>
 			<div className="form">
 				<form>
-					<input>
+					<input onChange={handleChangeAddTag}>
 					</input>
-					<button>
+					<div className="searchButton" onClick={handleAdd}>
 						Agregar
-					</button>
+					</div>
 				</form>
 				<div className="list">
-					<ul>
-						<li>element</li>
-					</ul>
+					{tagList.tags && tagList.tags.length > 0 && tagList.tags.map((t) => <p>{t}</p>)}
+				</div>
+				<div>
+					<button type="submit">Actualizar tags</button>
 				</div>
 			</div>
 		</div>
