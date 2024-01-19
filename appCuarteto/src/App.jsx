@@ -13,9 +13,6 @@ function App() {
 			<p>y aunque la creó <span>Pablo Riveiro</span> esta va a ser una App de Nos</p>
 			<hr />
 			<Routes>
-
-
-
 				<Route path="/" element={<ListAllLyrics />} />
 				<Route path="/addTags" element={<AddTags_Page />} />
 			</Routes>
