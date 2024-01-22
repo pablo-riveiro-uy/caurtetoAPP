@@ -35,11 +35,14 @@ app.use(express.json({ limit: "50mb" }))
 // middelwares
 app.use(cors())
 
+
+
 // Endpoints
 
 // Take a post request from endpoint and creates a post on DB
 app.post('/api/songs', async (req, res) => {
 	try {
+		let posts = 0
 		// traffic var
 		let dataForMongo = []
 		req.body.forEach(song => {
@@ -50,10 +53,12 @@ app.post('/api/songs', async (req, res) => {
 				lyrics: song.lyrics,
 				tags: song.tags
 			})
+			posts +=1
 		})
 
 		// creates records on DB using base model with mongoose method CREATE
 		await songs.create(dataForMongo)
+		console.log(`you have post ${posts} docs`)
 
 	} catch (err) {
 		console.error('Error posting  data to DB:', err);
