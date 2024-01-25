@@ -3,7 +3,7 @@ import axios from 'axios';
 import Song from './Song';
 
 
-console.log("buscando .. ")
+
 const APIkey = '184ee7f52d78e8f88edd888eeccbd0c6'
 
 const formatURL = '?format=json&callback=callbcak'
@@ -14,18 +14,16 @@ const artist =`${ApiRoot}${formatURL}artist.search?q_artist?=Cuarteto de Nos&api
 
 const  url ='https://api.musixmatch.com/ws/1.1/artist.search?q_artist?=Adele&apikey=184ee7f52d78e8f88edd888eeccbd0c6'
 
-axios.get(url, (req, res) => {
-    if (res)  console.log(res)
-})
 
 export default function ListAllLyrics() {
 	const [dataSong, setDataSong] = useState([]);
 
 	useEffect(() => {
 		axios.get('http://localhost:5500/api/songs')
-			.then((res) => {
+		.then((res) => {
+				console.log("buscando .. ")
 				if (res) {
-					console.log(res.data);
+					console.log("res from mongoDB",res.data);
 					setDataSong(res.data);
 				}
 			});
@@ -35,8 +33,10 @@ let clientId = 'c35985fe653644c986741b4f72ca2503'
 
 	return (
 		<>
+		<div className='info-text'>
 			<h2>Todas las letras</h2>
 			<p>agarrate Mabel</p>
+		</div>
 		<div className="container">
 
 			{

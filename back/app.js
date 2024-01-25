@@ -39,6 +39,38 @@ app.use(cors())
 
 // Endpoints
 
+// get all songs from DB
+
+app.get("/api/songs", async (req, res) => {
+	try {
+		// Retrieve data from MongoDB
+		const data = await songs.find();
+
+		// Send the data as a response
+		res.send(data)
+
+	} catch (err) {
+		console.error('Error retrieving data:', err);
+		res.status(500).json({ err: 'Internal Server Error' });
+	}
+
+})
+
+// get all tags from songs on DB
+
+app.get("/api/songsTags", async (req, res) => {
+	try {
+		const tags = songs.distinct("tags")
+		console.log("all song tags from DB",tags)
+		res.status(200)
+		res.send(tags)
+
+	} catch  (err) {
+		console.error('Error retriving tags from  DB:', err);
+		// res.status(500).json({ err: 'Internal Server Error' });
+}})
+
+
 // Take a post request from endpoint and creates a post on DB
 app.post('/api/songs', async (req, res) => {
 	try {
@@ -86,6 +118,8 @@ app.patch('/api/songs/:id', async (req, res) => {
 });
 
 
+
+
 // get a song by id
 
 app.get('/api/songs/:id', async (req, res) => {
@@ -99,8 +133,6 @@ app.get('/api/songs/:id', async (req, res) => {
 		res.status(500).json({ err: 'Internal Server Error' });
 	}
 })
-
-
 
 
 // get a song by title
@@ -130,25 +162,10 @@ app.delete('/api/songs', async (req, res) => {
 
 })
 
-// get all data from DB
 
-app.get("/api/songs", async (req, res) => {
-	try {
-		// Retrieve data from MongoDB
-		const data = await songs.find();
 
-		// Send the data as a response
-		res.send(data)
 
-	} catch (err) {
-		console.error('Error retrieving data:', err);
-		res.status(500).json({ err: 'Internal Server Error' });
-	}
-
-})
 
 app.listen(port, () => {
 	console.log(`Server is listening at http://localhost::${port}`)
 })
-
-
