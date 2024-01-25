@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 import songs from "./models/songs.js"
 import 'dotenv/config'
 import cors from "cors";
+import { stringify } from "flatted"; 
 
 
 
@@ -60,15 +61,16 @@ app.get("/api/songs", async (req, res) => {
 
 app.get("/api/songsTags", async (req, res) => {
 	try {
-		const tags = songs.distinct("tags")
-		console.log("all song tags from DB",tags)
-		res.status(200)
-		res.send(tags)
+	  const tags = await songs.distinct("tags");
+	  console.log("all song tags from DB", tags);
+	  const tagsJSON = stringify(tags); // Utiliza la función stringify importada correctamente
+	  res.status(200).send(tagsJSON);
+	} catch (err) {
+	  console.error('Error retrieving tags from DB:', err);
+	  res.status(500).json({ error: 'Internal Server Error' });
+	}
+  });
 
-	} catch  (err) {
-		console.error('Error retriving tags from  DB:', err);
-		// res.status(500).json({ err: 'Internal Server Error' });
-}})
 
 
 // Take a post request from endpoint and creates a post on DB
