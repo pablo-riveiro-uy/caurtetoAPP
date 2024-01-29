@@ -32,8 +32,8 @@ const app = express()
 // backend app setting
 app.set('port', process.env.PORT || 5500)
 // backend set for sizing
-app.use(express.json({ limit: "50mb" }))
-// middelwares
+
+
 app.use(cors())
 
 
@@ -62,7 +62,7 @@ app.get("/api/songs", async (req, res) => {
 app.get("/api/songsTags", async (req, res) => {
 	try {
 	  const tags = await songs.distinct("tags");
-	  console.log("all song tags from DB", tags);
+	  // console.log("all song tags from DB", tags);
 	  const tagsJSON = stringify(tags); // Utiliza la función stringify importada correctamente
 	  res.status(200).send(tagsJSON);
 	} catch (err) {
@@ -71,8 +71,19 @@ app.get("/api/songsTags", async (req, res) => {
 	}
   });
 
+  // songs by tag
 
-
+ app.get('/api/songsByTag/:tag', async (req, res) => {
+	try {
+		const tag = req.params.tag
+		const data = await songs.find({tags : tag})
+		console.log(data)
+		res.send(res.data)
+	} catch (err) {
+		console.error('Error retrieving songs by tag from DB:', err);
+		
+	}
+ })
 // Take a post request from endpoint and creates a post on DB
 app.post('/api/songs', async (req, res) => {
 	try {

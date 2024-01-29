@@ -21,9 +21,9 @@ export default function ListAllLyrics() {
 	useEffect(() => {
 		axios.get('http://localhost:5500/api/songs')
 		.then((res) => {
-				console.log("buscando .. ")
+				console.log("buscando lyrics on DB .. ")
 				if (res) {
-					console.log("res from mongoDB",res.data);
+
 					setDataSong(res.data);
 				}
 			});

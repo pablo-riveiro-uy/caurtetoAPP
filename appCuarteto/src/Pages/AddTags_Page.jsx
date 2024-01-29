@@ -8,6 +8,7 @@ export default function AddTags_Page() {
 	const [tittleToSearch, setTitleToSearch] = useState('');
 	const [tagList, setTagList] = useState([]);
 	const [tag, setTag] = useState('');
+	let message = ''
 
 	useEffect(() => {
 		setFinalTagList(tagList);
@@ -49,7 +50,9 @@ export default function AddTags_Page() {
 	function handleSubmit(e) {
 		e.preventDefault();
 		axios.patch(`${urlBase}/api/songs/${dataSong._id}`, { "tags": finalTagList })
-			.then(res => console.log(res.data))
+			.then(res => {
+				message = res.message
+				console.log(res.message)})
 			.catch(err => console.log(err));
 	}
 
@@ -87,6 +90,7 @@ export default function AddTags_Page() {
 				</div>
 
 				<div className="searchButton" onClick={handleSubmit}>Actualizar tags</div>
+				<spam>{message}?{message}:'editing...'</spam>
 
 			</div>
 		</div>

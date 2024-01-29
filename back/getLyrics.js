@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const APIkey = '184ee7f52d78e8f88edd888eeccbd0c6';
+const APIkey = process.env.LYRICS_API_KEY;
 const ApiRoot = 'https://api.musixmatch.com/ws/1.1/';
 const cuarteto_id = '97125';
 

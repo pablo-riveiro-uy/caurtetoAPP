@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ListAllLyrics from './Components/ListAllLyrics'
 import AddTags_Page from './Pages/AddTags_Page'
 
+import TagsCarousel from './Components/TagsCarousel'
+
 
 function App() {
 
@@ -23,23 +25,10 @@ function App() {
 			</div>
 			<div className="tag-options">
 				<h2>Elige una opcion</h2>
-				{/* <div className="slider">
-					<div className="slide-track">
-
-						<p className='slide'>locura</p>
-						<p className='slide'>amor</p>
-						<p className='slide'>odio</p>
-						<p className='slide'>anecdota</p>
-						<p className='slide'>personaje</p>
-						<p className='slide'>locura</p>
-						<p className='slide'>amor</p>
-						<p className='slide'>odio</p>
-						<p className='slide'>anecdota</p>
-						<p className='slide'>personaje</p>
 
 
-					</div>
-				</div> */}
+					<TagsCarousel />
+
 			</div>
 
 
